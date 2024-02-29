@@ -1,0 +1,25 @@
+From 4154f48b16847ee1cd60b20d05ab559be88d2f1f Mon Sep 17 00:00:00 2001
+From: Miguel Angel Nieto Jimenez <mnietoji@redhat.com>
+Date: Tue, 19 Dec 2023 10:21:27 +0100
+Subject: [PATCH] Fix yq command to be compatible with yq v4
+
+Option -y is not available in yq version 4 that
+is the one being installed
+https://github.com/openshift-metal3/dev-scripts/issues/1620
+---
+ 01_install_requirements.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/01_install_requirements.sh b/01_install_requirements.sh
+index 4303ba2dd..53e3335d7 100755
+--- a/01_install_requirements.sh
++++ b/01_install_requirements.sh
+@@ -99,7 +99,7 @@ esac
+ # during dnf upgrade
+ sudo dnf -y install jq
+ sudo python -m pip install yq
+-yq -iy '.[3].dnf.nobest = "true"' ${METAL3_DEV_ENV_PATH}/vm-setup/roles/packages_installation/tasks/centos_required_packages.yml
++yq -i '.[3].dnf.nobest = "true"' ${METAL3_DEV_ENV_PATH}/vm-setup/roles/packages_installation/tasks/centos_required_packages.yml
+ 
+ GOARCH=$(uname -m)
+ if [[ $GOARCH == "aarch64" ]]; then
